@@ -1,5 +1,8 @@
 import constants from '../constants';
 import globalImport from '../interface/constants/global_import';
+import SliderConstants from '../interface/constants/Slider';
+import Dispatcher from '../interface/dispatcher';
+
 
 let dashedLine = (plot,...props) => {
   let line = plot.addLine(...props);
@@ -70,7 +73,11 @@ let graphs = (leftID, rightID) => {
   let funcLeft = plotterLeft.addFunc(func);
   let borders = getBorders(plotterLeft, funcLeft);
   let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
-  let line = dashedLine(plotterLeft, x1, y1, x2, y2);
+  let lineLeft = dashedLine(plotterLeft, x1, y1, x2, y2);
+  let pointLeft = plotterLeft.addPoint((x1 + x2) / 2, func((x1 + x2) / 2), {
+    color: '#ff0000',
+    size: 5
+  });
 
   let linearFunction = (x) => (y2 - y1) / (x2 - x1) * x + y1 - (y2 - y1) / (x2 - x1) * x1;
   plotterRight.addFunc((x) => Math.abs(linearFunction(x) - func(x)), {
@@ -78,7 +85,14 @@ let graphs = (leftID, rightID) => {
     right: x2
   });
 
-  console.log(globalImport('Dispatcher'));
+  Dispatcher.register((event) => {
+    if (event.actionType === SliderConstants.SLIDER_SLIDE
+      && event.name === SliderConstants.names.pointPosition) {
+      pointLeft.X(event.value);
+      pointLeft.Y(func(event.value));
+      plotterLeft.redraw();
+    }
+  });
 };
 
 export default graphs;

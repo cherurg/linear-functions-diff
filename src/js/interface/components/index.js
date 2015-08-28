@@ -1,7 +1,8 @@
 import React from 'react';
 import Slider from './Slider'
 import fmt from 'rssi';
-import constants from '../../constants';
+import GraphConstants from '../../constants';
+import SliderConstants from '../constants/Slider';
 
 class App extends React.Component {
   render() {
@@ -19,10 +20,10 @@ class App extends React.Component {
           <div className="grid">
             <Slider
               {...{
-                name: 'pointPosition',
-                start: (constants.RIGHT_BORDER + constants.LEFT_BORDER) / 2,
-                min: constants.LEFT_BORDER,
-                max: constants.RIGHT_BORDER,
+                name: SliderConstants.names.pointPosition,
+                start: (GraphConstants.RIGHT_BORDER + GraphConstants.LEFT_BORDER) / 2,
+                min: GraphConstants.LEFT_BORDER,
+                max: GraphConstants.RIGHT_BORDER,
                 step: 0.01,
                 label: fmt('Положение точки: #{number}')
               }}/>

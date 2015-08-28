@@ -8,5 +8,12 @@ export default {
       name: name,
       value: value
     });
+  },
+  slide: (name, value) => {
+    AppDispatcher.dispatch({
+      actionType: Constants.SLIDER_SLIDE,
+      name: name,
+      value: value
+    });
   }
 };

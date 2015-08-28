@@ -19,9 +19,11 @@ var bindSlider = function (slider) {
   });
 
   slider.noUiSlider.on('slide', () => {
+    let value = getFormatted(slider.noUiSlider.get());
     this.setState({
-      number: getFormatted(slider.noUiSlider.get())
+      number: value
     });
+    Actions.slide(this.props.name, value);
   });
 
   slider.noUiSlider.on('set', () => {
