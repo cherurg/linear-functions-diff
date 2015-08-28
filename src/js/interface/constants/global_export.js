@@ -1,4 +1,4 @@
-var rootProperty = 'IntelinfoGraph';
+var rootProperty = 'LinearFunctionsDiff';
 
 var setRootProperty = (prop) => {
   rootProperty = prop;

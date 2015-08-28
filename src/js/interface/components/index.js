@@ -20,7 +20,7 @@ class App extends React.Component {
             <Slider
               {...{
                 name: 'pointPosition',
-                start: 0,
+                start: (constants.RIGHT_BORDER + constants.LEFT_BORDER) / 2,
                 min: constants.LEFT_BORDER,
                 max: constants.RIGHT_BORDER,
                 step: 0.01,

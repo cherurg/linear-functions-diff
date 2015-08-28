@@ -1,4 +1,5 @@
 import constants from '../constants';
+import globalImport from '../interface/constants/global_import';
 
 let dashedLine = (plot,...props) => {
   let line = plot.addLine(...props);
@@ -68,15 +69,16 @@ let graphs = (leftID, rightID) => {
   let func = x => x*x;
   let funcLeft = plotterLeft.addFunc(func);
   let borders = getBorders(plotterLeft, funcLeft);
-  let line = dashedLine(
-    plotterLeft,
-    borders.left,
-    func(borders.left),
-    borders.right,
-    func(borders.right)
-  );
+  let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
+  let line = dashedLine(plotterLeft, x1, y1, x2, y2);
 
-  plotterRight.addFunc((x) => func(2) - func(x));
+  let linearFunction = (x) => (y2 - y1) / (x2 - x1) * x + y1 - (y2 - y1) / (x2 - x1) * x1;
+  plotterRight.addFunc((x) => Math.abs(linearFunction(x) - func(x)), {
+    left: x1,
+    right: x2
+  });
+
+  console.log(globalImport('Dispatcher'));
 };
 
 export default graphs;

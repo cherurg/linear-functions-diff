@@ -1,3 +1,7 @@
-var Dispatcher = require('flux').Dispatcher;
+import globalExport from '../constants/global_export';
 
-module.exports = new Dispatcher();
+var Dispatcher = require('flux').Dispatcher;
+let dispatcher = new Dispatcher();
+
+globalExport(dispatcher, 'Dispatcher');
+module.exports = dispatcher;
