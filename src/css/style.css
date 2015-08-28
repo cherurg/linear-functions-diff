@@ -1,0 +1,6 @@
+.over-grid {
+    lost-utility: clearfix;
+    .grid {
+        lost-column: 1/2;
+    }
+}
