@@ -6,6 +6,49 @@ let dashedLine = (plot,...props) => {
   return line;
 };
 
+let getBorders = (plot, func) => {
+  let {top, bottom} = plot.plot.pure;
+  let points = func.getPoints();
+
+  let leftPoint;
+  if (points[0].y > top) {
+    let point;
+    for (point of points) if (point.y < top) break;
+    leftPoint = point;
+
+  } else if (points[0].y < bottom) {
+    let point;
+    for (point of points) if (point.y > bottom) break;
+    leftPoint = point;
+
+  } else {
+    leftPoint = points[0];
+  }
+
+  let rightPoint;
+  if (points[points.length - 1].y > top) {
+    let point;
+    for (point of points.reverse()) if (point.y < top) break;
+    rightPoint = point;
+
+  } else if (points[points.length - 1].y < bottom) {
+    let point;
+    for (point of points.reverse()) if (point.y > bottom) break;
+    rightPoint = point;
+
+  } else {
+    rightPoint = points[points.length - 1];
+  }
+
+  let offset = rightPoint.x - leftPoint.x;
+  offset /= 20;
+
+  return {
+    left: leftPoint.x + offset,
+    right: rightPoint.x - offset
+  };
+};
+
 let graphs = (leftID, rightID) => {
   let width = document.getElementById(leftID).offsetWidth - 30;
   let height = 600 / 800 * width;
@@ -19,12 +62,21 @@ let graphs = (leftID, rightID) => {
     bottom: -0.5
   };
 
-  let left = new Plotter(leftID, plotterOptions);
-  let right = new Plotter(rightID, plotterOptions);
+  let plotterLeft = new Plotter(leftID, plotterOptions);
+  let plotterRight = new Plotter(rightID, plotterOptions);
 
   let func = x => x*x;
-  let leftFunc = left.addFunc(func);
-  let line = dashedLine(left, -2, func(-2), 2, func(2));
+  let funcLeft = plotterLeft.addFunc(func);
+  let borders = getBorders(plotterLeft, funcLeft);
+  let line = dashedLine(
+    plotterLeft,
+    borders.left,
+    func(borders.left),
+    borders.right,
+    func(borders.right)
+  );
+
+  plotterRight.addFunc((x) => func(2) - func(x));
 };
 
 export default graphs;

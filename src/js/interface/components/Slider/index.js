@@ -4,7 +4,7 @@ import Actions from '../../actions/Slider';
 
 var getFormatted = function (number) {
   var len = number.toString().length;
-  return number.toString().slice(0, len - 3);
+  return number.toString().slice(0, len);
 };
 
 var bindSlider = function (slider) {
