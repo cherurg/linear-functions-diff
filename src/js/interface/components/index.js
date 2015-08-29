@@ -1,15 +1,16 @@
 import React from 'react';
-import Slider from './Slider'
 import fmt from 'rssi';
-import GraphConstants from '../../constants';
-import SliderConstants from '../constants/Slider';
+import LeftBottom from './LeftBottom';
+import LeftTop from './LeftTop';
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <div className="over-grid">
-          <div className="grid"></div>
+          <div className="grid">
+            <LeftTop/>
+          </div>
           <div className="grid"></div>
         </div>
         <div className="graphs over-grid">
@@ -18,15 +19,7 @@ class App extends React.Component {
         </div>
         <div className="over-grid">
           <div className="grid">
-            <Slider
-              {...{
-                name: SliderConstants.names.pointPosition,
-                start: (GraphConstants.RIGHT_BORDER + GraphConstants.LEFT_BORDER) / 2,
-                min: GraphConstants.LEFT_BORDER,
-                max: GraphConstants.RIGHT_BORDER,
-                step: 0.01,
-                label: fmt('Положение точки: #{number}')
-              }}/>
+            <LeftBottom/>
           </div>
           <div className="grid"></div>
         </div>

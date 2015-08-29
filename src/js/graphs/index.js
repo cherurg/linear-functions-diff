@@ -1,8 +1,7 @@
 import constants from '../constants';
-import globalImport from '../interface/constants/global_import';
 import SliderConstants from '../interface/constants/Slider';
 import Dispatcher from '../interface/dispatcher';
-
+import GraphConstants from '../constants';
 
 let dashedLine = (plot,...props) => {
   let line = plot.addLine(...props);
@@ -74,7 +73,7 @@ let graphs = (leftID, rightID) => {
   let borders = getBorders(plotterLeft, funcLeft);
   let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
   let lineLeft = dashedLine(plotterLeft, x1, y1, x2, y2);
-  let pointLeft = plotterLeft.addPoint((x1 + x2) / 2, func((x1 + x2) / 2), {
+  let pointLeft = plotterLeft.addPoint(GraphConstants.getMean(), func(GraphConstants.getMean()), {
     color: '#ff0000',
     size: 5
   });

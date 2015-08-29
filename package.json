@@ -13,7 +13,9 @@
     "babelify": "^6.2.0",
     "browserify": "^11.0.1",
     "gulp": "^3.9.0",
+    "gulp-add-src": "^0.2.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
     "gulp-concat-css": "^2.2.0",
     "gulp-postcss": "^6.0.0",
     "gulp-rename": "^1.2.2",
@@ -24,11 +26,12 @@
   },
   "dependencies": {
     "flux": "^2.1.1",
+    "jquery": "^2.1.4",
     "keymirror": "^0.1.1",
     "lodash": "^3.10.1",
+    "nouislider": "git://github.com/leongersen/noUiSlider",
     "object-assign": "^4.0.1",
     "react": "^0.13.3",
-    "rssi": "0.0.7",
-    "nouislider": "git://github.com/leongersen/noUiSlider"
+    "rssi": "0.0.7"
   }
 }
