@@ -8,7 +8,11 @@ var CHANGE_EVENT = 'change';
 
 var _checkboxes = {};
 
-_checkboxes['EnableDashedLine'] = {
+let names = keyMirror({
+  EnableDashedLine: null
+});
+
+_checkboxes[names.EnableDashedLine] = {
   isChecked: false
 };
 
@@ -41,7 +45,13 @@ var CheckboxesStore = assign({}, EventEmitter.prototype, {
     }
 
     return keyMirror(names);
-  }
+  },
+
+  at: (name) => {
+    return _checkboxes[name];
+  },
+
+  names: names
 });
 
 CheckboxesStore[Symbol.iterator] = () => {
