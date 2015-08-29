@@ -34,7 +34,7 @@ let graphs = (leftID, rightID) => {
 
   var lineLeft;
   var lineRight;
-  if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
+  let drawDashedLine = () => {
     let borders = getBorders(plotterLeft, point);
     let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
     lineLeft = dashedLine(plotterLeft, x1, y1, x2, y2);
@@ -43,6 +43,26 @@ let graphs = (leftID, rightID) => {
       left: x1,
       right: x2
     });
+  };
+  let updateDashedLine = () => {
+    let borders = getBorders(plotterLeft, point);
+    let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
+    lineLeft.X1(x1);
+    lineLeft.X2(x2);
+    lineLeft.Y1(y1);
+    lineLeft.Y2(y2);
+    let linearFunction = (x) => (y2 - y1) / (x2 - x1) * x + y1 - (y2 - y1) / (x2 - x1) * x1;
+    lineRight.Func((x) => Math.abs(linearFunction(x) - func(x)));
+    lineRight.Left(x1);
+    lineRight.Right(x2);
+    plotterRight.redraw();
+  };
+  let removeDashedLine = () => {
+    plotterLeft.remove(lineLeft);
+    plotterRight.remove(lineRight);
+  };
+  if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
+    drawDashedLine();
   }
   Dispatcher.register((event) => {
       switch(event.actionType) {
@@ -52,17 +72,7 @@ let graphs = (leftID, rightID) => {
             point.Y(func(event.value));
 
             if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
-              let borders = getBorders(plotterLeft, point);
-              let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
-              lineLeft.X1(x1);
-              lineLeft.X2(x2);
-              lineLeft.Y1(y1);
-              lineLeft.Y2(y2);
-              let linearFunction = (x) => (y2 - y1) / (x2 - x1) * x + y1 - (y2 - y1) / (x2 - x1) * x1;
-              lineRight.Func((x) => Math.abs(linearFunction(x) - func(x)));
-              lineRight.Left(x1);
-              lineRight.Right(x2);
-              plotterRight.redraw();
+              updateDashedLine();
             }
 
             plotterLeft.redraw();
@@ -71,17 +81,9 @@ let graphs = (leftID, rightID) => {
 
         case CheckboxConstants.CHECKBOX_TOGGLE:
           if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
-            let borders = getBorders(plotterLeft, point);
-            let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
-            lineLeft = dashedLine(plotterLeft, x1, y1, x2, y2);
-            let linearFunction = (x) => (y2 - y1) / (x2 - x1) * x + y1 - (y2 - y1) / (x2 - x1) * x1;
-            lineRight = plotterRight.addFunc((x) => Math.abs(linearFunction(x) - func(x)), {
-              left: x1,
-              right: x2
-            });
+            drawDashedLine();
           } else {
-            plotterLeft.remove(lineLeft);
-            plotterRight.remove(lineRight);
+            removeDashedLine();
           }
           break;
       }
