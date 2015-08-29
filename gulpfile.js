@@ -35,6 +35,7 @@ gulp.task('build-css', function () {
     .pipe(postcss([
       require('postcss-nested'),
       lost(),
+      require('postcss-center'),
       autoprefixer({ browsers: ['last 2 versions'] })
     ]))
     .pipe(concatCss('bundle.css'))
@@ -73,6 +74,7 @@ gulp.task('build-css-production', function () {
     .pipe(postcss([
       require('postcss-nested'),
       lost(),
+      require('postcss-center'),
       autoprefixer({ browsers: ['last 2 versions'] })
     ]))
     .pipe(add('src/lib/materialize/materialize.css'))

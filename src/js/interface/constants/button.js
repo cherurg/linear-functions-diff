@@ -1,8 +1,7 @@
 import keyMirror from 'keymirror';
 
 var constants = keyMirror({
-  SLIDER_SLIDE: null,
-  SLIDER_SET: null
+  BUTTON_CLICK: null
 });
 
 export default constants;

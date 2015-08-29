@@ -22,6 +22,7 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglifyjs": "^0.6.2",
     "lost": "^6.5.0",
+    "postcss-center": "^1.0.0",
     "postcss-nested": "^1.0.0"
   },
   "dependencies": {

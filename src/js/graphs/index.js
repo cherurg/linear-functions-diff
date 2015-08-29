@@ -1,4 +1,5 @@
 import constants from '../constants';
+import SlidersStore from '../interface/stores/Sliders';
 import SliderConstants from '../interface/constants/Slider';
 import Dispatcher from '../interface/dispatcher';
 import GraphConstants from '../constants';
@@ -77,7 +78,7 @@ let graphs = (leftID, rightID) => {
   Dispatcher.register((event) => {
       switch(event.actionType) {
         case SliderConstants.SLIDER_SLIDE:
-          if (event.name === SliderConstants.names.pointPosition) {
+          if (event.name === SlidersStore.names.pointPosition) {
             point.X(event.value);
             point.Y(func(event.value));
 

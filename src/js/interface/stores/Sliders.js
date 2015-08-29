@@ -1,38 +1,28 @@
 import fmt from 'rssi';
-import AppDispatcher from '../dispatcher/AppDispatcher';
+import AppDispatcher from '../dispatcher';
 import {EventEmitter} from 'events';
 import Constants from '../constants/Slider';
 import assign from 'object-assign';
 import globalExport from '../constants/global_export.js';
 import keyMirror from 'keymirror';
 import _ from 'lodash';
+import SliderConstants from '../constants/Slider';
+import GraphConstants from '../../constants';
 
 var CHANGE_EVENT = 'change';
 
-var _sliders = {};
-_sliders.foundersShare = {
-  name: 'foundersShare',
-  start: 0,
-  min: 0,
-  max: 100,
-  step: 1,
-  label: fmt('Мин. % учредителя: #{number}%')
-};
-_sliders.maxLinksNumber = {
-  name: 'maxLinksNumber',
-  start: 50,
-  step: 1,
-  min: 1,
-  max: 500,
-  label: fmt('Макс. число связей: #{number}')
-};
-_sliders.linkLength = {
-  min: 20,
-  max: 500,
-  step: 5,
-  start: 150,
-  name: 'linkLength',
-  label: fmt('Длина линии: #{number}')
+let names = keyMirror({
+  pointPosition: null
+});
+
+var _sliders = {
+  [names.pointPosition]: {
+    start: (GraphConstants.RIGHT_BORDER + GraphConstants.LEFT_BORDER) / 2,
+    min: GraphConstants.LEFT_BORDER,
+    max: GraphConstants.RIGHT_BORDER,
+    step: 0.01,
+    label: fmt('Положение точки: #{number}')
+  }
 };
 
 var setValue = function (name, value) {
@@ -73,7 +63,9 @@ var SlidersStore = assign({}, EventEmitter.prototype, {
 
   getSlider: function (name) {
     return _sliders[name];
-  }
+  },
+
+  names: names
 });
 
 SlidersStore[Symbol.iterator] = () => {
