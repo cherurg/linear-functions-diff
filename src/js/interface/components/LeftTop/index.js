@@ -5,8 +5,12 @@ import Checkbox from '../Checkbox';
 class LeftTop extends React.Component {
   render() {
     return (<div>
-        <Checkbox name="EnableDashedLine">Построить хорду</Checkbox>
-        <Checkbox name="ZoomGraphs">Приблизить</Checkbox>
+        <div style={{display: 'inline-block', paddingLeft: '1em'}}>
+          <Checkbox name="EnableDashedLine">Построить хорду</Checkbox>
+        </div>
+        <div style={{display: 'inline-block', paddingLeft: '2em'}}>
+          <Checkbox name="ZoomGraphs">Приблизить</Checkbox>
+        </div>
       </div>
     );
   }

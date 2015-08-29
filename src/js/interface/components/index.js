@@ -11,7 +11,9 @@ class App extends React.Component {
           <div className="grid">
             <LeftTop/>
           </div>
-          <div className="grid"></div>
+          <div className="grid">
+            <span>Разница между графиком и хордой</span>
+          </div>
         </div>
         <div className="graphs over-grid">
           <div id="left-plotter" className="grid"/>
