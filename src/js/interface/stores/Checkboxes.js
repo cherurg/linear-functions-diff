@@ -6,14 +6,19 @@ import keyMirror from 'keymirror';
 
 var CHANGE_EVENT = 'change';
 
-var _checkboxes = {};
-
 let names = keyMirror({
-  EnableDashedLine: null
+  EnableDashedLine: null,
+  ZoomGraphs: null
 });
 
-_checkboxes[names.EnableDashedLine] = {
-  isChecked: false
+let _checkboxes = {
+  [names.EnableDashedLine]: {
+    isChecked: false
+  },
+
+  [names.ZoomGraphs]: {
+    isChecked: false
+  }
 };
 
 var toggle = (name) => {

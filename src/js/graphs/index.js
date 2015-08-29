@@ -6,6 +6,7 @@ import dashedLine from './dashed-line';
 import getBorders from './get-borders';
 import CheckboxesStore from '../interface/stores/Checkboxes';
 import CheckboxConstants from '../interface/constants/Checkbox';
+import Zoom from './zoom';
 
 let graphs = (leftID, rightID) => {
   let width = document.getElementById(leftID).offsetWidth - 30;
@@ -32,9 +33,13 @@ let graphs = (leftID, rightID) => {
   });
   let funcLeft = plotterLeft.addFunc(func);
 
+  let zoom = new Zoom(plotterLeft, plotterRight);
+
   var lineLeft;
   var lineRight;
+  let isDashedLineDrawn = false;
   let drawDashedLine = () => {
+    isDashedLineDrawn = true;
     let borders = getBorders(plotterLeft, point);
     let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
     lineLeft = dashedLine(plotterLeft, x1, y1, x2, y2);
@@ -45,6 +50,9 @@ let graphs = (leftID, rightID) => {
     });
   };
   let updateDashedLine = () => {
+    if (!isDashedLineDrawn) {
+      return;
+    }
     let borders = getBorders(plotterLeft, point);
     let [x1, y1, x2, y2] = [borders.left, func(borders.left), borders.right, func(borders.right)];
     lineLeft.X1(x1);
@@ -56,8 +64,10 @@ let graphs = (leftID, rightID) => {
     lineRight.Left(x1);
     lineRight.Right(x2);
     plotterRight.redraw();
+    plotterLeft.redraw();
   };
   let removeDashedLine = () => {
+    isDashedLineDrawn = false;
     plotterLeft.remove(lineLeft);
     plotterRight.remove(lineRight);
   };
@@ -73,17 +83,29 @@ let graphs = (leftID, rightID) => {
 
             if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
               updateDashedLine();
+            } else {
+              plotterLeft.redraw();
             }
-
-            plotterLeft.redraw();
           }
           break;
 
         case CheckboxConstants.CHECKBOX_TOGGLE:
-          if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
-            drawDashedLine();
-          } else {
-            removeDashedLine();
+          if (event.name === CheckboxesStore.names.EnableDashedLine) {
+            CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine) ?
+              drawDashedLine() :
+              removeDashedLine();
+          }
+
+          if (event.name == CheckboxesStore.names.ZoomGraphs) {
+            zoom.center = {
+              x: parseFloat(point.X()),
+              y: parseFloat(point.Y())
+            };
+            CheckboxesStore.isChecked(CheckboxesStore.names.ZoomGraphs) ?
+              (zoom.zoomIn(),
+              updateDashedLine()) :
+              (zoom.zoomOut(),
+              updateDashedLine());
           }
           break;
       }
