@@ -8,6 +8,7 @@ import keyMirror from 'keymirror';
 import _ from 'lodash';
 import SliderConstants from '../constants/Slider';
 import GraphConstants from '../../constants';
+import ButtonConstants from '../constants/button';
 
 var CHANGE_EVENT = 'change';
 
@@ -34,8 +35,16 @@ var SlidersStore = assign({}, EventEmitter.prototype, {
     this.on(CHANGE_EVENT, callback);
   },
 
+  addButtonListener(cb) {
+    this.on('button', cb);
+  },
+
   emitChange: function () {
     this.emit(CHANGE_EVENT);
+  },
+
+  emitButton: function () {
+    this.emit('button');
   },
 
   getAll: function () {
@@ -97,10 +106,20 @@ AppDispatcher.register(function (action) {
       SlidersStore.emitChange();
       break;
 
+    case ButtonConstants.BUTTON_CLICK:
+      let move = 0.01;
+      if (ButtonConstants.SLIDER_PLUS === action.name) {
+        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) + move);
+        SlidersStore.emitButton();
+      } else if (ButtonConstants.SLIDER_MINUS === action.name) {
+        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) - move);
+        SlidersStore.emitButton();
+      }
+      break;
+
     default:
       break;
   }
 });
 
-globalExport(SlidersStore, 'stores.sliders');
 export default SlidersStore;

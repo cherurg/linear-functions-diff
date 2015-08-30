@@ -120,6 +120,18 @@ let graphs = (leftID, rightID) => {
         break;
     }
   });
+
+  SlidersStore.addButtonListener(() => {
+    let value = SlidersStore.getValue(SlidersStore.names.pointPosition);
+    point.X(value);
+    point.Y(func(value));
+
+    if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
+      updateDashedLine();
+    } else {
+      plotterLeft.redraw();
+    }
+  });
 };
 
 export default graphs;

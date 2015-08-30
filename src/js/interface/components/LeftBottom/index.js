@@ -4,6 +4,7 @@ import Slider from '../Slider'
 import GraphConstants from '../../../constants';
 import SlidersStore from '../../stores/Sliders';
 import Button from '../Button';
+import ButtonConstants from '../../constants/button';
 
 class LeftBottom extends React.Component {
   render() {
@@ -19,8 +20,17 @@ class LeftBottom extends React.Component {
         }}/>
 
         <div className="zoom-buttons" style={{marginRight: '30px'}}>
-          <Button className="btn waves-effect waves-light indigo lighten-1">-</Button>
-          <Button className="btn waves-effect waves-light indigo lighten-1" style={{marginLeft: '0.5em'}}>+</Button>
+          <Button
+            className="btn waves-effect waves-light indigo lighten-1"
+            name={ButtonConstants.SLIDER_MINUS}>
+            -
+          </Button>
+          <Button
+            className="btn waves-effect waves-light indigo lighten-1"
+            style={{marginLeft: '0.5em'}}
+            name={ButtonConstants.SLIDER_PLUS}>
+            +
+          </Button>
         </div>
       </div>
 

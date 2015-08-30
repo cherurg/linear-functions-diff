@@ -1,6 +1,7 @@
 import React from 'react';
 import noUiSlider from 'nouislider';
 import Actions from '../../actions/Slider';
+import SlidersStore from '../../stores/Sliders';
 
 var getFormatted = function (number) {
   var len = number.toString().length;
@@ -27,6 +28,14 @@ var bindSlider = function (slider) {
   });
 
   slider.noUiSlider.on('set', () => {
+    let value = getFormatted(slider.noUiSlider.get());
+    this.setState({
+      number: value
+    });
+    if (slider.noUiSlider.wereSet) {
+      delete slider.noUiSlider.wereSet;
+      return;
+    }
     Actions.set(this.props.name, getFormatted(slider.noUiSlider.get()));
   });
 
@@ -46,6 +55,12 @@ class Slider extends React.Component {
   componentDidMount() {
     var slider = bindSlider.call(this, React.findDOMNode(this)
       .querySelector('.slider__element'));
+    SlidersStore.addButtonListener(() => {
+      if (this.props.name === SlidersStore.names.pointPosition) {
+        slider.wereSet = true;
+        slider.set(SlidersStore.getValue(SlidersStore.names.pointPosition));
+      }
+    });
 
     this.setState({
       number: getFormatted(slider.get())
