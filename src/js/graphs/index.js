@@ -9,8 +9,17 @@ import CheckboxesStore from '../interface/stores/Checkboxes';
 import CheckboxConstants from '../interface/constants/Checkbox';
 import Zoom from './zoom';
 import ButtonConstants from '../interface/constants/button';
+import DropDownsStore from '../interface/stores/DropDowns';
+
+let clearAll, _leftID, _rightID;
+DropDownsStore.addChangeListener(() => {
+  clearAll();
+  graphs(_leftID, _rightID);
+});
 
 let graphs = (leftID, rightID) => {
+  _leftID = leftID;
+  _rightID = rightID;
   let width = document.getElementById(leftID).offsetWidth - 30;
   let height = 600 / 800 * width;
 
@@ -26,7 +35,7 @@ let graphs = (leftID, rightID) => {
   let plotterLeft = new Plotter(leftID, plotterOptions);
   let plotterRight = new Plotter(rightID, plotterOptions);
 
-  let func = x => x * x;
+  let func = DropDownsStore.getCurrentFunc(DropDownsStore.names.functions);
 
   let point = plotterLeft.addPoint(GraphConstants.getMean(), func(GraphConstants.getMean()), {
     color: '#ff0000',
@@ -85,7 +94,7 @@ let graphs = (leftID, rightID) => {
   if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
     drawDashedLine();
   }
-  Dispatcher.register((event) => {
+  let dispatcherToken = Dispatcher.register((event) => {
     switch (event.actionType) {
       case SliderConstants.SLIDER_SLIDE:
         if (event.name === SlidersStore.names.pointPosition) {
@@ -131,7 +140,7 @@ let graphs = (leftID, rightID) => {
     }
   });
 
-  SlidersStore.addButtonListener(() => {
+  let buttonListener = () => {
     let value = SlidersStore.getValue(SlidersStore.names.pointPosition);
     point.X(value);
     point.Y(func(value));
@@ -141,7 +150,17 @@ let graphs = (leftID, rightID) => {
     } else {
       plotterLeft.redraw();
     }
-  });
+  };
+  SlidersStore.addButtonListener(buttonListener);
+
+  clearAll = () => {
+    plotterLeft.removeAll();
+    plotterRight.removeAll();
+    SlidersStore.removeListener('button', buttonListener);
+    Dispatcher.unregister(dispatcherToken);
+    document.getElementById(leftID).innerHTML = '';
+    document.getElementById(rightID).innerHTML = '';
+  };
 };
 
 export default graphs;
