@@ -2,8 +2,7 @@ import _ from 'lodash';
 
 class Zoom {
 
-  offset = 0.05;
-  zoomed = false;
+  factor = 4/5;
 
   constructor(plotMain, plot, center) {
     this.plotMain = plotMain;
@@ -12,32 +11,52 @@ class Zoom {
   }
 
   zoomIn() {
-    if (this.zoomed) return;
-    this.zoomed = true;
+    let {left, right, top, bottom} = this.plotMain.plot.pure;
+    let factor = this.factor;
 
-    this.past = _.clone(this.plotMain.plot.pure);
+    let semiHorizontal = (right - left) / 2;
+    let meanX = this.center.x;
+    left = meanX - semiHorizontal * factor;
+    right = meanX + semiHorizontal * factor;
+    this.plotMain.plot.x.domain([left, right]);
 
-    this.plotMain.plot.y.domain([this.center.y - this.offset, this.center.y + this.offset]);
-    this.plotMain.plot.x.domain([this.center.x - this.offset, this.center.x + this.offset]);
+    let semiVertical = (top - bottom) / 2;
+    let meanY = this.center.y;
+    bottom = meanY - semiVertical * factor;
+    top = meanY + semiVertical * factor;
+    this.plotMain.plot.y.domain([bottom, top]);
+
     this.plotMain.redraw();
 
-    this.plot.plot.y.domain([-0.1*this.offset, 2*this.offset]);
-    this.plot.plot.x.domain([this.center.x - this.offset, this.center.x + this.offset]);
+
+    this.plot.plot.x.domain([left, right]);
+    this.plot.plot.y.domain([-0.1*(top - bottom), 0.9*(top - bottom)]);
+
     this.plot.redraw();
   }
 
   zoomOut() {
-    if (!this.zoomed) return;
-    this.zoomed = false;
+    let {left, right, top, bottom} = this.plotMain.plot.pure;
+    let factor = 1 / this.factor;
 
-    let {left, right, top, bottom} = this.past;
-
-    this.plotMain.plot.y.domain([bottom, top]);
+    let semiHorizontal = (right - left) / 2;
+    let meanX = this.center.x;
+    left = meanX - semiHorizontal * factor;
+    right = meanX + semiHorizontal * factor;
     this.plotMain.plot.x.domain([left, right]);
+
+    let semiVertical = (top - bottom) / 2;
+    let meanY = this.center.y;
+    bottom = meanY - semiVertical * factor;
+    top = meanY + semiVertical * factor;
+    this.plotMain.plot.y.domain([bottom, top]);
+
     this.plotMain.redraw();
 
-    this.plot.plot.y.domain([bottom, top]);
+
     this.plot.plot.x.domain([left, right]);
+    this.plot.plot.y.domain([-0.1*(top - bottom), 0.9*(top - bottom)]);
+
     this.plot.redraw();
   }
 }
