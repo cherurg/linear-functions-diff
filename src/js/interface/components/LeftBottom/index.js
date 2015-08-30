@@ -3,6 +3,7 @@ import fmt from 'rssi';
 import Slider from '../Slider'
 import GraphConstants from '../../../constants';
 import SlidersStore from '../../stores/Sliders';
+import Button from '../Button';
 
 class LeftBottom extends React.Component {
   render() {
@@ -16,14 +17,15 @@ class LeftBottom extends React.Component {
           step: 0.01,
           label: fmt('Положение точки: #{number}')
         }}/>
+
+        <div className="zoom-buttons" style={{marginRight: '30px'}}>
+          <Button className="btn waves-effect waves-light indigo lighten-1">-</Button>
+          <Button className="btn waves-effect waves-light indigo lighten-1" style={{marginLeft: '0.5em'}}>+</Button>
+        </div>
       </div>
+
     );
   }
 }
-
-/*        <div className="zoom-buttons" style={{marginRight: '30px'}}>
- <button className="btn waves-effect waves-light indigo lighten-1" style={{}}>-</button>
- <button className="btn waves-effect waves-light indigo lighten-1" style={{marginLeft: '0.5em'}}>+</button>
- </div>*/
 
 export default LeftBottom;
