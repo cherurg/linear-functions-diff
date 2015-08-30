@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/js/interface/components/LeftBottom/index.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/js/interface/components/LeftTop/index.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/js/interface/components/RightTop/index.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/js/interface/components/index.js" charset="UTF-8" />
   </component>
 </project>

@@ -2,6 +2,7 @@ import React from 'react';
 import fmt from 'rssi';
 import LeftBottom from './LeftBottom';
 import LeftTop from './LeftTop';
+import RightTop from './RightTop';
 
 class App extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class App extends React.Component {
             <LeftTop/>
           </div>
           <div className="grid">
-            <span>Разница между графиком и хордой</span>
+            <RightTop/>
           </div>
         </div>
         <div className="graphs over-grid">

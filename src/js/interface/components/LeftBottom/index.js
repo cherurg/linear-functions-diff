@@ -19,7 +19,7 @@ class LeftBottom extends React.Component {
           label: fmt('Положение точки: #{number}')
         }}/>
 
-        <div className="zoom-buttons" style={{marginRight: '30px'}}>
+        <div className="slider-buttons" style={{marginRight: '30px'}}>
           <Button
             className="btn waves-effect waves-light indigo lighten-1"
             name={ButtonConstants.SLIDER_MINUS}>

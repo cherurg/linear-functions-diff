@@ -11,6 +11,11 @@
     lost-center: 1200px;
 }
 
-.zoom-buttons {
+.slider-buttons {
+    left: center;
+}
+
+.button-img {
+    top: center;
     left: center;
 }

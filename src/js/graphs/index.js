@@ -8,6 +8,7 @@ import getBorders from './get-borders';
 import CheckboxesStore from '../interface/stores/Checkboxes';
 import CheckboxConstants from '../interface/constants/Checkbox';
 import Zoom from './zoom';
+import ButtonConstants from '../interface/constants/button';
 
 let graphs = (leftID, rightID) => {
   let width = document.getElementById(leftID).offsetWidth - 30;
@@ -105,17 +106,26 @@ let graphs = (leftID, rightID) => {
             drawDashedLine() :
             removeDashedLine();
         }
+        break;
 
-        if (event.name == CheckboxesStore.names.ZoomGraphs) {
+      case ButtonConstants.BUTTON_CLICK:
+        if (event.name == ButtonConstants.ZOOM_IN) {
           zoom.center = {
             x: parseFloat(point.X()),
             y: parseFloat(point.Y())
           };
-          CheckboxesStore.isChecked(CheckboxesStore.names.ZoomGraphs) ?
-            (zoom.zoomIn(),
-              updateDashedLine()) :
-            (zoom.zoomOut(),
-              updateDashedLine());
+
+          zoom.zoomIn();
+          updateDashedLine();
+
+        } else if (event.name == ButtonConstants.ZOOM_OUT) {
+          zoom.center = {
+            x: parseFloat(point.X()),
+            y: parseFloat(point.Y())
+          };
+
+          zoom.zoomOut();
+          updateDashedLine();
         }
         break;
     }
