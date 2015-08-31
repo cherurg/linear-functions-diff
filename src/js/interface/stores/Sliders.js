@@ -9,6 +9,8 @@ import _ from 'lodash';
 import SliderConstants from '../constants/Slider';
 import GraphConstants from '../../constants';
 import ButtonConstants from '../constants/button';
+import DropDownsStore from './DropDowns';
+import DropDownConstants from '../constants/DropDown';
 
 var CHANGE_EVENT = 'change';
 
@@ -127,6 +129,11 @@ AppDispatcher.register(function (action) {
         move = 0.01;
       }
       break;
+
+    case DropDownConstants.DROP_DOWN_SELECT:
+      if (action.name === DropDownsStore.names.functions) {
+        move = 0.01;
+      }
 
     default:
       break;
