@@ -17,14 +17,16 @@ let dropDowns = {
       '$f(x) = |x|$',
       '$f(x) = sin(x)$',
       '$f(x) = x sin(\\frac{1}{x})$',
-      '$f(x) = x^2 sin(\\frac{1}{x})$'
+      '$f(x) = x^2 sin(\\frac{1}{x})$',
+      '$f(x) = |sin(x)|$'
     ],
     func: {
       '$f(x) = x^2$': (x) => x*x,
       '$f(x) = |x|$': (x) => Math.abs(x),
       '$f(x) = sin(x)$': (x) => Math.sin(x),
       '$f(x) = x sin(\\frac{1}{x})$': (x) => x !== 0 ? x * Math.sin(1/x) : 0,
-      '$f(x) = x^2 sin(\\frac{1}{x})$': (x) => x !== 0 ? x*x * Math.sin(1/x) : 0
+      '$f(x) = x^2 sin(\\frac{1}{x})$': (x) => x !== 0 ? x*x * Math.sin(1/x) : 0,
+      '$f(x) = |sin(x)|$': (x) => Math.abs(Math.sin(x))
     },
     current: '$f(x) = x^2$'
   }

@@ -86,9 +86,15 @@ let graphs = (leftID, rightID) => {
   };
   let removeDashedLine = () => {
     isDashedLineDrawn = false;
-    plotterLeft.remove(lineLeft);
+
+    (function () {
+      plotterLeft.elements.removeElement(lineLeft);
+      lineLeft.el.remove();
+    }());
+
     for (let element of lineRight) {
-      plotterRight.remove(element);
+      plotterRight.elements.removeElement(element);
+      element.el.forEach(f => f.remove());
     }
   };
   if (CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine)) {
@@ -114,6 +120,8 @@ let graphs = (leftID, rightID) => {
           CheckboxesStore.isChecked(CheckboxesStore.names.EnableDashedLine) ?
             drawDashedLine() :
             removeDashedLine();
+          plotterLeft.redraw();
+          plotterRight.redraw();
         }
         break;
 

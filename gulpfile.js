@@ -52,14 +52,16 @@ gulp.task('build-scripts-production', function () {
       insertGlobals : true,
       debug : false,
       transform: babelify.configure({
-        optional: ['es7.classProperties',
+        optional: [
+          'es7.classProperties',
           'es7.objectRestSpread'
         ]
       })
     }))
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(add('node_modules/jquery/dist/jquery.min.js'))
-    .pipe(add('src/lib/materialize/js/materialize.min.js'))
+    .pipe(uglify({
+      mangle: true,
+      compress: true
+    }))
     .pipe(concat('bundle.min.js'))
     .pipe(gulp.dest('./dist/js'))
 });
@@ -70,14 +72,13 @@ gulp.task('build-css-production', function () {
   var autoprefixer = require('autoprefixer-core');
   var lost = require('lost');
 
-  return gulp.src('src/css/**/*.css')
+  gulp.src(['src/css/**/*.css', 'src/lib/materialize/materialize.css'])
     .pipe(postcss([
       require('postcss-nested'),
       lost(),
       require('postcss-center'),
       autoprefixer({ browsers: ['last 2 versions'] })
     ]))
-    .pipe(add('src/lib/materialize/materialize.css'))
     .pipe(concatCss('bundle.min.css'))
     .pipe(gulp.dest('dist/css'));
 });

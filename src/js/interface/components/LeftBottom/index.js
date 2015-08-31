@@ -21,13 +21,14 @@ class LeftBottom extends React.Component {
 
         <div className="slider-buttons" style={{marginRight: '30px'}}>
           <Button
-            className="btn waves-effect waves-light indigo lighten-1"
+            className="btn-flat waves-effect"
+            style={{color: 'black', backgroundColor: 'gainsboro', opacity: 0.7, borderRadius: '5px'}}
             name={ButtonConstants.SLIDER_MINUS}>
             -
           </Button>
           <Button
-            className="btn waves-effect waves-light indigo lighten-1"
-            style={{marginLeft: '0.5em'}}
+            className="btn-flat waves-effect"
+            style={{marginLeft: '0.5em', color: 'black', backgroundColor: 'gainsboro', opacity: 0.7, borderRadius: '5px'}}
             name={ButtonConstants.SLIDER_PLUS}>
             +
           </Button>

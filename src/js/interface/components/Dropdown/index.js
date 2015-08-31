@@ -19,7 +19,7 @@ class DropDown extends React.Component {
   }
 
   componentDidMount() {
-    $('.dropdown-button').dropdown({
+    jQuery('.dropdown-button').dropdown({
         inDuration: 300,
         outDuration: 225,
         constrain_width: false, // Does not change width of dropdown to that of the activator
@@ -37,7 +37,7 @@ class DropDown extends React.Component {
   render() {
     return (
       <div>
-        <a className='dropdown-button btn indigo lighten-1' href='#' data-activates='dropdown1'>Выбрать функцию</a>
+        <a className='dropdown-button btn-flat' href='#' style={{color: 'black', backgroundColor: 'gainsboro', opacity: 0.7}} data-activates='dropdown1'>Выбрать функцию</a>
         <ul id='dropdown1' className='dropdown-content'>
           {
             this.state.elements.map((el, i) => {
