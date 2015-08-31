@@ -122,6 +122,9 @@ AppDispatcher.register(function (action) {
 
       } else if (ButtonConstants.ZOOM_OUT === action.name) {
         move /= factor;
+
+      } else if (ButtonConstants.ZOOM_FULL_OUT === action.name) {
+        move = 0.01;
       }
       break;
 

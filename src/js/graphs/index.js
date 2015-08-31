@@ -44,7 +44,7 @@ let graphs = (leftID, rightID) => {
   });
   let funcLeft = plotterLeft.addFunc(func);
 
-  let zoom = new Zoom(plotterLeft, plotterRight);
+  let zoom = new Zoom(plotterLeft, plotterRight, null, plotterOptions);
 
   var lineLeft;
   var lineRight;
@@ -126,24 +126,22 @@ let graphs = (leftID, rightID) => {
         break;
 
       case ButtonConstants.BUTTON_CLICK:
-        if (event.name == ButtonConstants.ZOOM_IN) {
+        if (event.name == ButtonConstants.ZOOM_IN ||
+          event.name == ButtonConstants.ZOOM_OUT ||
+          event.name == ButtonConstants.ZOOM_FULL_OUT) {
+
           zoom.center = {
             x: parseFloat(point.X()),
             y: parseFloat(point.Y())
           };
 
-          zoom.zoomIn();
-          updateDashedLine();
+          if (event.name === ButtonConstants.ZOOM_IN) zoom.zoomIn();
+          if (event.name === ButtonConstants.ZOOM_OUT) zoom.zoomOut();
+          if (event.name === ButtonConstants.ZOOM_FULL_OUT) zoom.zoomFullOut();
 
-        } else if (event.name == ButtonConstants.ZOOM_OUT) {
-          zoom.center = {
-            x: parseFloat(point.X()),
-            y: parseFloat(point.Y())
-          };
-
-          zoom.zoomOut();
           updateDashedLine();
         }
+
         break;
     }
   });

@@ -12,6 +12,12 @@ class LeftTop extends React.Component {
         <div className="zoom-buttons" style={{marginLeft: '30px', display: 'inline-block'}}>
           <Button
             className="waves-effect btn-flat"
+            style={{marginLeft: '0.5em', color: 'black'}}
+            name={ButtonConstants.ZOOM_FULL_OUT}>
+            Отдалить
+          </Button>
+          <Button
+            className="waves-effect btn-flat"
             name={ButtonConstants.ZOOM_OUT}>
             <img className="button-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAttJREFUSImtlL9PVFkUxz/nvjfOEiao+CMbwjabGEpja7IOKgUsoUB4aMdAiEaFv4CNtBAbE80UFjrTLT4sdnETGpFJqDYaC5s10XKjiRiLJzrge+dYsLMZxpnMQPxWN+ec+/28d+69R2ig7PBUt5eKB8FOGq4TKGO8Fmdrq4uFdcAa7a2W1AbOX5j4WX1dMNwZwZbF3FMV3jmzNqAHYcCgQ9Abqw+Kv+8J0Ds2OQKW99QW4nbLl4rFcr1NZy/mTqPcAXmZjjK5lZXbW00BvWOTI47klqj8+nip8KLZlwVBcGCD9nsGncfYHArDMKlX52CnLWD5Vs0BwjDcPsrmuIjIe8vMNqpzAOrrgqe20Kp5FSRR0wmcTmeHp7rrArLDU92GOxO3W34v5hWVwuJbcEXPT67UBXipeFCw5UYH2ooSJ4uYDtUFgJ0Uc0/3aw5wPImeq+NENjvn1+Z8w3Wa8K4S6AsuH1TZ+qOZqaqbW1u6X4Kds+gdHY/oenMI2NgFAMr/PSIAPhzm0+EP7rdmgCSV+md3xLUR+9+02cd4DfRUAs/u3v0CrDcDVKvv0mRXrFYuPch/rM05cbaGMLAXw1ppbAMCT+rl3OpiYd2g4+zF3Ol9+gvojFMt1AUAJugNlDtBEBzYq/u50dx1c0SPl4orjQDsTEV5uUH7vSAIvFbNz49N9IHcVLyrjWpcZZGOMjmDzg3JPMoG4z828ZZzo7lpU5Zx/OCh843+fte4DoLAe2+ZWZxOgysmThaPJ9HzyqTsuzTZpbENgM6YI1K8qx46DzII9tcR27wQhuF2Q0BF2eGpbs9PrmA6pI4TKBG4NhxlgSdOtVDpeX//THq7I3oIMmimj47yaaQaUhewC5ad8+l6c4jYL5fCb+95M0hTQKuqhqiyfEw+joZhuP3dALUQsD+P2GbrV7IVvXr1d9Lz0y8Pk/TWKZChz5L693v6/6/+/pl071juGiBfAXKhQWr5Iw07AAAAAElFTkSuQmCC"/>
           </Button>

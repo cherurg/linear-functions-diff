@@ -4,10 +4,11 @@ class Zoom {
 
   factor = 4/5;
 
-  constructor(plotMain, plot, center) {
+  constructor(plotMain, plot, center, initial) {
     this.plotMain = plotMain;
     this.plot = plot;
     this.center = center;
+    this.initial = initial;
   }
 
   zoomIn() {
@@ -57,6 +58,18 @@ class Zoom {
     this.plot.plot.x.domain([left, right]);
     this.plot.plot.y.domain([-0.1*(top - bottom), 0.9*(top - bottom)]);
 
+    this.plot.redraw();
+  }
+
+  zoomFullOut() {
+    let {left, right, top, bottom} = this.initial;
+
+    this.plotMain.plot.x.domain([left, right]);
+    this.plotMain.plot.y.domain([bottom, top]);
+    this.plotMain.redraw();
+
+    this.plot.plot.x.domain([left, right]);
+    this.plot.plot.y.domain([bottom, top]);
     this.plot.redraw();
   }
 }
