@@ -29,7 +29,8 @@ let graphs = (leftID, rightID) => {
     left: constants.LEFT_BORDER,
     right: constants.RIGHT_BORDER,
     top: 5,
-    bottom: -0.5
+    bottom: -0.5,
+    ticks: 4
   };
 
   let plotterLeft = new Plotter(leftID, plotterOptions);
