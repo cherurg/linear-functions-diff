@@ -99,6 +99,8 @@ SlidersStore[Symbol.iterator] = () => {
   };
 };
 
+let move = 0.01;
+let factor = 4/5;
 AppDispatcher.register(function (action) {
   switch (action.actionType) {
     case Constants.SLIDER_SET:
@@ -107,13 +109,19 @@ AppDispatcher.register(function (action) {
       break;
 
     case ButtonConstants.BUTTON_CLICK:
-      let move = 0.01;
       if (ButtonConstants.SLIDER_PLUS === action.name) {
         setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) + move);
         SlidersStore.emitButton();
+
       } else if (ButtonConstants.SLIDER_MINUS === action.name) {
         setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) - move);
         SlidersStore.emitButton();
+
+      } else if (ButtonConstants.ZOOM_IN === action.name) {
+        move *= factor;
+
+      } else if (ButtonConstants.ZOOM_OUT === action.name) {
+        move /= factor;
       }
       break;
 
