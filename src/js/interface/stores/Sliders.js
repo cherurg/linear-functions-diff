@@ -18,15 +18,23 @@ let names = keyMirror({
   pointPosition: null
 });
 
-var _sliders = {
+
+const initialButtonStep = 0.05;
+const initialSlideStep = 0.01;
+
+let _slidersInitial = {
   [names.pointPosition]: {
     start: (GraphConstants.RIGHT_BORDER + GraphConstants.LEFT_BORDER) / 2,
     min: GraphConstants.LEFT_BORDER,
     max: GraphConstants.RIGHT_BORDER,
-    step: 0.01,
+    slideStep: initialSlideStep,
+    buttonStep: initialButtonStep,
+    factor: 4/6,
     label: fmt('Положение точки: #{number}')
   }
 };
+
+var _sliders = _.cloneDeep(_slidersInitial);
 
 var setValue = function (name, value) {
   _sliders[name].value = value;
@@ -41,12 +49,28 @@ var SlidersStore = assign({}, EventEmitter.prototype, {
     this.on('button', cb);
   },
 
+  addZoomListener(cb) {
+    this.on('zoom', cb);
+  },
+
+  addDropDownListener(cb) {
+    this.on('dropDown', cb);
+  },
+
   emitChange: function () {
     this.emit(CHANGE_EVENT);
   },
 
   emitButton: function () {
     this.emit('button');
+  },
+
+  emitZoom() {
+    this.emit('zoom');
+  },
+
+  emitDropDown() {
+    this.emit('dropDown');
   },
 
   getAll: function () {
@@ -101,9 +125,8 @@ SlidersStore[Symbol.iterator] = () => {
   };
 };
 
-let move = 0.01;
-let factor = 4/5;
 AppDispatcher.register(function (action) {
+  let zoom = require('../../graphs/zoom');
   switch (action.actionType) {
     case Constants.SLIDER_SET:
       setValue(action.name, action.value);
@@ -112,28 +135,31 @@ AppDispatcher.register(function (action) {
 
     case ButtonConstants.BUTTON_CLICK:
       if (ButtonConstants.SLIDER_PLUS === action.name) {
-        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) + move);
+        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) + _sliders[names.pointPosition].buttonStep);
         SlidersStore.emitButton();
 
       } else if (ButtonConstants.SLIDER_MINUS === action.name) {
-        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) - move);
+        setValue(names.pointPosition, parseFloat(SlidersStore.getValue(names.pointPosition)) - _sliders[names.pointPosition].buttonStep);
         SlidersStore.emitButton();
 
-      } else if (ButtonConstants.ZOOM_IN === action.name) {
-        move *= factor;
-
-      } else if (ButtonConstants.ZOOM_OUT === action.name) {
-        move /= factor;
-
-      } else if (ButtonConstants.ZOOM_FULL_OUT === action.name) {
-        move = 0.01;
       }
+      break;
+
+      case Constants.ZOOM_UPDATED:
+        _sliders[names.pointPosition].slideStep = zoom.getXRange() / 500;
+        _sliders[names.pointPosition].buttonStep = zoom.getXRange() / 100;
+        _sliders[names.pointPosition].min = zoom.getLeft();
+        _sliders[names.pointPosition].max = zoom.getRight();
+        SlidersStore.emitZoom();
+
       break;
 
     case DropDownConstants.DROP_DOWN_SELECT:
       if (action.name === DropDownsStore.names.functions) {
-        move = 0.01;
+        _sliders = _.cloneDeep(_slidersInitial);
+        SlidersStore.emitDropDown();
       }
+      break;
 
     default:
       break;

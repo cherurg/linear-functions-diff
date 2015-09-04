@@ -3,67 +3,88 @@ import noUiSlider from 'nouislider';
 import Actions from '../../actions/Slider';
 import SlidersStore from '../../stores/Sliders';
 
-var getFormatted = function (number) {
-  var len = number.toString().length;
-  return number.toString().slice(0, len);
-};
-
-var bindSlider = function (slider) {
-  noUiSlider.create(slider, {
-    start: this.props.start,
-    step: this.props.step,
-    connect: 'lower',
-    range: {
-      min: this.props.min,
-      max: this.props.max
-    }
-  });
-
-  slider.noUiSlider.on('slide', () => {
-    let value = getFormatted(slider.noUiSlider.get());
-    this.setState({
-      number: value
-    });
-    Actions.slide(this.props.name, value);
-  });
-
-  slider.noUiSlider.on('set', () => {
-    let value = getFormatted(slider.noUiSlider.get());
-    this.setState({
-      number: value
-    });
-    if (slider.noUiSlider.wereSet) {
-      delete slider.noUiSlider.wereSet;
-      return;
-    }
-    Actions.set(this.props.name, getFormatted(slider.noUiSlider.get()));
-  });
-
-  return slider.noUiSlider;
-};
-
 class Slider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      slider: {
-        get: () => 0
+
+  state = {
+    slider: {
+      get: () => 0
+    },
+
+    label: SlidersStore.getSlider(SlidersStore.names.pointPosition).label
+  };
+
+  bindSlider(slider) {
+    noUiSlider.create(slider, {
+      start: SlidersStore.getSlider(SlidersStore.names.pointPosition).start,
+      step: SlidersStore.getSlider(SlidersStore.names.pointPosition).step,
+      connect: 'lower',
+      range: {
+        min: SlidersStore.getSlider(SlidersStore.names.pointPosition).min,
+        max: SlidersStore.getSlider(SlidersStore.names.pointPosition).max
+      },
+      format: {
+        to: function ( value ) {
+          return parseFloat(value).toFixed(4) - 0;
+        },
+        from: function ( value ) {
+          return parseFloat(value).toFixed(4) - 0;
+        }
       }
-    };
+    });
+
+    slider.noUiSlider.on('slide', () => {
+      let value = slider.noUiSlider.get();
+      this.setState({
+        number: value
+      });
+      Actions.slide(this.props.name, value);
+    });
+
+    slider.noUiSlider.on('set', () => {
+      let value = slider.noUiSlider.get();
+      this.setState({
+        number: value
+      });
+      if (slider.noUiSlider.wereSetManually) {
+        delete slider.noUiSlider.wereSetManually;
+        return;
+      }
+      Actions.set(this.props.name, slider.noUiSlider.get());
+    });
+
+    return slider.noUiSlider;
   }
 
   componentDidMount() {
-    var slider = bindSlider.call(this, React.findDOMNode(this)
-      .querySelector('.slider__element'));
+    var slider = this.bindSlider(React.findDOMNode(this).querySelector('.slider__element'));
+
     SlidersStore.addButtonListener(() => {
+
       if (this.props.name === SlidersStore.names.pointPosition) {
-        slider.wereSet = true;
+        slider.wereSetManually = true;
         slider.set(SlidersStore.getValue(SlidersStore.names.pointPosition));
       }
     });
 
+    SlidersStore.addZoomListener(() => {
+      slider.destroy();
+      SlidersStore.getSlider(SlidersStore.names.pointPosition).start = parseFloat(slider.get());
+      slider = this.bindSlider(React.findDOMNode(this).querySelector('.slider__element'));
+      this.setState({
+        number: slider.get()
+      });
+    });
+
+    SlidersStore.addDropDownListener(() => {
+      slider.destroy();
+      slider = this.bindSlider(React.findDOMNode(this).querySelector('.slider__element'));
+      this.setState({
+        number: slider.get()
+      });
+    });
+
     this.setState({
-      number: getFormatted(slider.get())
+      number: slider.get()
     });
   }
 
@@ -73,7 +94,7 @@ class Slider extends React.Component {
       <div className='slider'>
         <span
           className='slider__name'>
-          {this.props.label({number: this.state.number})}
+          {this.state.label({number: this.state.number})}
         </span>
 
         <div className='slider__element'></div>

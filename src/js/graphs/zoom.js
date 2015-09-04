@@ -1,15 +1,16 @@
 import _ from 'lodash';
+import SlidersStore from '../interface/stores/Sliders';
 
-class Zoom {
+let zoom = {
 
-  factor = 4/5;
+  factor: SlidersStore.getSlider(SlidersStore.names.pointPosition).factor,
 
   constructor(plotMain, plot, center, initial) {
     this.plotMain = plotMain;
     this.plot = plot;
     this.center = center;
     this.initial = initial;
-  }
+  },
 
   zoomIn() {
     let {left, right, top, bottom} = this.plotMain.plot.pure;
@@ -34,7 +35,7 @@ class Zoom {
     this.plot.plot.y.domain([-0.1*(top - bottom), 0.9*(top - bottom)]);
 
     this.plot.redraw();
-  }
+  },
 
   zoomOut() {
     let {left, right, top, bottom} = this.plotMain.plot.pure;
@@ -59,7 +60,7 @@ class Zoom {
     this.plot.plot.y.domain([-0.1*(top - bottom), 0.9*(top - bottom)]);
 
     this.plot.redraw();
-  }
+  },
 
   zoomFullOut() {
     let {left, right, top, bottom} = this.initial;
@@ -71,7 +72,39 @@ class Zoom {
     this.plot.plot.x.domain([left, right]);
     this.plot.plot.y.domain([bottom, top]);
     this.plot.redraw();
-  }
-}
+  },
 
-export default Zoom;
+  getLeft() {
+    return this.plot.plot.x.domain()[0];
+  },
+
+  getRight() {
+    return this.plot.plot.x.domain()[1];
+  },
+
+  getBottom() {
+    return this.plot.plot.y.domain()[0];
+  },
+
+  getTop() {
+    return this.plot.plot.y.domain()[1];
+  },
+
+  getXRange() {
+    return this.getRight() - this.getLeft();
+  },
+
+  getYRange() {
+    return this.getTop() - this.getBottom();
+  },
+
+  getXMean() {
+    return (this.getRight() + this.getLeft()) / 2;
+  },
+
+  getYMean() {
+    return (this.getBottom() + this.getTop()) / 2;
+  }
+};
+
+export default zoom;

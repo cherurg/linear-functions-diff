@@ -7,7 +7,7 @@ import dashedLine from './dashed-line';
 import getBorders from './get-borders';
 import CheckboxesStore from '../interface/stores/Checkboxes';
 import CheckboxConstants from '../interface/constants/Checkbox';
-import Zoom from './zoom';
+import zoom from './zoom';
 import ButtonConstants from '../interface/constants/button';
 import DropDownsStore from '../interface/stores/DropDowns';
 
@@ -45,7 +45,7 @@ let graphs = (leftID, rightID) => {
   });
   let funcLeft = plotterLeft.addFunc(func);
 
-  let zoom = new Zoom(plotterLeft, plotterRight, null, plotterOptions);
+  zoom.constructor(plotterLeft, plotterRight, null, plotterOptions);
 
   var lineLeft;
   var lineRight;
@@ -139,6 +139,12 @@ let graphs = (leftID, rightID) => {
           if (event.name === ButtonConstants.ZOOM_IN) zoom.zoomIn();
           if (event.name === ButtonConstants.ZOOM_OUT) zoom.zoomOut();
           if (event.name === ButtonConstants.ZOOM_FULL_OUT) zoom.zoomFullOut();
+
+          setTimeout(() => {
+            Dispatcher.dispatch({
+              actionType: SliderConstants.ZOOM_UPDATED
+            });
+          }, 0);
 
           updateDashedLine();
         }
