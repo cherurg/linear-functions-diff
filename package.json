@@ -5,13 +5,15 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp"
+    "build": "gulp",
+    "watch": "gulp watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer-core": "5.2.1",
     "babelify": "6.2.0",
+    "browser-sync": "^2.24.6",
     "browserify": "11.0.1",
     "gulp": "^3.9.1",
     "gulp-add-src": "0.2.0",
@@ -22,6 +24,7 @@
     "gulp-rename": "1.2.2",
     "gulp-sourcemaps": "1.5.2",
     "gulp-uglifyjs": "0.6.2",
+    "gulp-watch": "^5.0.0",
     "lost": "6.5.0",
     "postcss-center": "1.0.0",
     "postcss-nested": "1.0.0"

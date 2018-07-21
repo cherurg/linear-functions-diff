@@ -1,13 +1,13 @@
-import AppDispatcher from '../dispatcher';
-import ActionConstants from '../constants/button';
+import AppDispatcher from '../dispatcher'
+import ActionConstants from '../constants/button'
 
 var ButtonActions = {
-  click: (name) => {
+  click: name => {
     AppDispatcher.dispatch({
       actionType: ActionConstants.BUTTON_CLICK,
-      name: name
-    });
-  }
-};
+      name: name,
+    })
+  },
+}
 
-export default ButtonActions;
+export default ButtonActions
